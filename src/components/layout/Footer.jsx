@@ -2,20 +2,24 @@ import Link from "next/link";
 
 const footerLinks = {
   product: [
-    { name: "Features", href: "/features" },
+    { name: "Features", href: "/#features" },
     { name: "Pricing", href: "/pricing" },
     { name: "Download", href: "/download" },
   ],
   guides: [
-    { name: "Feeld Guide", href: "/guides/feeld" },
-    { name: "ENM Communication", href: "/guides/enm-communication" },
-    { name: "Dating Confidence", href: "/guides/dating-confidence" },
-    { name: "Authentic Connection", href: "/guides/authentic-connection" },
+    { name: "Feeld Guide", href: "/feeld-guide" },
+    { name: "ENM Communication", href: "/enm-communication" },
+    { name: "Dating Confidence", href: "/dating-confidence" },
+    { name: "Authentic Connection", href: "/authentic-connection" },
+  ],
+  tools: [
+    { name: "Bio Generator", href: "/tools/bio-generator" },
+    { name: "Opener Generator", href: "/tools/opener-generator" },
   ],
   company: [
     { name: "About", href: "/about" },
     { name: "Privacy", href: "/privacy" },
-    { name: "Terms", href: "/terms" },
+    { name: "FAQ", href: "/faq" },
   ],
 };
 
@@ -161,6 +165,23 @@ export default function Footer({ className = "" }) {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
+                <h3 className="text-sm font-semibold leading-6 text-white">
+                  Tools
+                </h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {footerLinks.tools.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="text-sm leading-6 text-zinc-400 transition-colors hover:text-white"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold leading-6 text-white">
                   Company
                 </h3>

@@ -1,39 +1,58 @@
+"use client";
+
 import { Section, Card } from "@/components/ui";
 import {
   Hero,
-  FeatureGrid,
-  TestimonialSection,
   PricingTable,
   CTASection,
-  UseCaseSection,
+  TestimonialCarousel,
+  BentoFeature,
+  FadeIn,
+  StaggerContainer,
+  StaggerItem,
 } from "@/components/marketing";
+import { Container } from "@/components/layout";
+import { motion } from "framer-motion";
+
+// Apple icon component for iOS download CTAs
+const AppleIcon = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+  </svg>
+);
 
 export default function Home() {
-  // Section 3: Solution Features
+  // Section 3: Solution Features for Bento Grid (3-column layout)
+  // Row 1: Large (2 cols) + Default (1 col)
+  // Row 2: Default (1 col) + Highlight (2 cols, glowing)
   const solutionFeatures = [
     {
       icon: "🦄",
       title: "Feeld Fluency",
       description:
         "From pings to desires, unicorn etiquette to couple messaging - we actually know how Feeld works.",
+      size: "large",
     },
     {
       icon: "💬",
       title: "ENM Communication",
       description:
         "Whether you're poly, open, swinging, or exploring - get help navigating disclosure, boundaries, and the conversations that matter.",
-    },
-    {
-      icon: "🔐",
-      title: "Discretion First",
-      description:
-        "All processing happens on your device. Your conversations, desires, and matches never touch our servers. Period.",
+      size: "default",
     },
     {
       icon: "✨",
       title: "Authentic Over Performative",
       description:
         'No manipulative "rizz." Just help expressing what you actually want to say - clearly, confidently, and respectfully.',
+      size: "default",
+    },
+    {
+      icon: "🔐",
+      title: "Discretion First",
+      description:
+        "All processing happens on your device. Your conversations, desires, and matches never touch our servers. Period.",
+      size: "highlight",
     },
   ];
 
@@ -41,6 +60,7 @@ export default function Home() {
   const useCases = [
     {
       title: "For Singles on Feeld",
+      icon: "👤",
       items: [
         "Craft openers that show you understand ENM culture",
         "Navigate messaging with couples without the awkwardness",
@@ -49,6 +69,7 @@ export default function Home() {
     },
     {
       title: "For Couples",
+      icon: "👥",
       items: [
         'Write "we" messages that don\'t sound creepy',
         "Avoid the unicorn hunter reputation",
@@ -57,6 +78,7 @@ export default function Home() {
     },
     {
       title: "For the Lifestyle Community",
+      icon: "🎭",
       items: [
         "Message on SDC, Kasidie, or lifestyle apps with confidence",
         "Discuss desires directly without being crude",
@@ -65,6 +87,7 @@ export default function Home() {
     },
     {
       title: "For Anyone in Open Relationships",
+      icon: "💜",
       items: [
         "Scripts for disclosing ENM on vanilla apps",
         'Help with the "how does that work?" conversation',
@@ -118,10 +141,10 @@ export default function Home() {
 
   // Section 7: Privacy Points
   const privacyPoints = [
-    "On-device processing — Your messages are generated locally",
-    "No conversation storage — We never see what you type or receive",
-    "Minimal account data — Just email for login, nothing more",
-    "No training on your data — Your conversations don't improve our AI",
+    { icon: "📱", text: "On-device processing — Your messages are generated locally" },
+    { icon: "🚫", text: "No conversation storage — We never see what you type or receive" },
+    { icon: "📧", text: "Minimal account data — Just email for login, nothing more" },
+    { icon: "🔒", text: "No training on your data — Your conversations don't improve our AI" },
   ];
 
   // Section 8: Pricing Tiers
@@ -132,7 +155,7 @@ export default function Home() {
       period: "",
       description: "Get started",
       features: ["3 messages/day", "Basic styles"],
-      cta: { text: "Start Free", href: "/download" },
+      cta: { text: "Download Free", href: "/download" },
       popular: false,
     },
     {
@@ -141,7 +164,7 @@ export default function Home() {
       period: "week",
       description: "Try it out",
       features: ["Unlimited messages", "All styles", "Priority responses"],
-      cta: { text: "Start Weekly", href: "/download" },
+      cta: { text: "Download Free", href: "/download" },
       popular: false,
     },
     {
@@ -155,7 +178,7 @@ export default function Home() {
         "Priority responses",
         "History sync",
       ],
-      cta: { text: "Start Monthly", href: "/download" },
+      cta: { text: "Download Free", href: "/download" },
       popular: true,
     },
     {
@@ -164,7 +187,7 @@ export default function Home() {
       period: "year",
       description: "Best value",
       features: ["Everything in Monthly", "Profile coaching", "Early access"],
-      cta: { text: "Start Annual", href: "/download" },
+      cta: { text: "Download Free", href: "/download" },
       popular: false,
     },
   ];
@@ -175,225 +198,227 @@ export default function Home() {
       <Hero
         headline="Finally. An AI That Actually Gets Open Relationships."
         subheadline="The first conversation coach built specifically for Feeld, ethical non-monogamy, and the lifestyle community. No judgment. No generic pickup lines. Just smart messaging help that understands your world."
-        primaryCta={{ text: "Download Poise (Free)", href: "/download" }}
+        primaryCta={{ text: "Download for iOS", href: "/download", icon: <AppleIcon /> }}
         trustBadge="Your conversations never leave your device"
       />
 
       {/* Section 2: Problem Section */}
       <Section background="muted">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-6">
-            Generic dating AI doesn't work for us.
-          </h2>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8">
-            You've tried ChatGPT. Maybe even Rizz. And every time, you get:
-          </p>
-          <ul className="text-left max-w-xl mx-auto space-y-4 mb-8">
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mt-0.5">
-                <svg
-                  className="w-4 h-4 text-red-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </span>
-              <span className="text-zinc-700 dark:text-zinc-300">
-                Openers that sound like they're for Tinder hookups, not Feeld
-                connections
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mt-0.5">
-                <svg
-                  className="w-4 h-4 text-red-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </span>
-              <span className="text-zinc-700 dark:text-zinc-300">
-                Zero understanding of ENM dynamics or relationship structures
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mt-0.5">
-                <svg
-                  className="w-4 h-4 text-red-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </span>
-              <span className="text-zinc-700 dark:text-zinc-300">
-                Advice that assumes everyone's monogamous
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mt-0.5">
-                <svg
-                  className="w-4 h-4 text-red-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </span>
-              <span className="text-zinc-700 dark:text-zinc-300">
-                Suggestions that would get you unmatched instantly by anyone in
-                the lifestyle
-              </span>
-            </li>
-          </ul>
-          <p className="text-xl font-semibold text-purple-600 dark:text-purple-400">
+        <FadeIn>
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-6">
+              Generic dating AI doesn't work for us.
+            </h2>
+            <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8">
+              You've tried ChatGPT. Maybe even Rizz. And every time, you get:
+            </p>
+          </div>
+        </FadeIn>
+        <StaggerContainer className="max-w-xl mx-auto space-y-4 mb-8">
+          {[
+            "Openers that sound like they're for Tinder hookups, not Feeld connections",
+            "Zero understanding of ENM dynamics or relationship structures",
+            "Advice that assumes everyone's monogamous",
+            "Suggestions that would get you unmatched instantly by anyone in the lifestyle",
+          ].map((item, index) => (
+            <StaggerItem key={index}>
+              <motion.div
+                className="flex items-start gap-3"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </span>
+                <span className="text-zinc-700 dark:text-zinc-300">{item}</span>
+              </motion.div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+        <FadeIn delay={0.4}>
+          <p className="text-xl font-semibold text-purple-600 dark:text-purple-400 text-center">
             You need messaging help that speaks your language.
           </p>
-        </div>
+        </FadeIn>
       </Section>
 
-      {/* Section 3: Solution Section */}
+      {/* Section 3: Solution Section - Bento Grid */}
       <Section>
-        <div className="text-center mb-12">
+        <FadeIn className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-4">
             Built by the community. For the community.
           </h2>
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
             Poise understands:
           </p>
-        </div>
-        <FeatureGrid features={solutionFeatures} columns={4} />
+        </FadeIn>
+
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {solutionFeatures.map((feature, index) => (
+              <BentoFeature
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                size={feature.size}
+                index={index}
+              />
+            ))}
+          </div>
+        </Container>
       </Section>
 
-      {/* Section 4: Use Cases Section */}
+      {/* Section 4: Use Cases Section - Bento Style */}
       <Section background="muted">
-        <div className="text-center mb-12">
+        <FadeIn className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
             For the conversations that actually matter
           </h2>
-        </div>
-        <UseCaseSection useCases={useCases} className="py-0" />
+        </FadeIn>
+
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {useCases.map((useCase, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -4 }}
+                className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-3xl">{useCase.icon}</span>
+                  <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                    {useCase.title}
+                  </h3>
+                </div>
+                <ul className="space-y-3">
+                  {useCase.items.map((item, itemIndex) => (
+                    <li key={itemIndex} className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-zinc-600 dark:text-zinc-400 text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </Container>
       </Section>
 
-      {/* Section 5: Social Proof / Testimonials */}
-      <TestimonialSection testimonials={testimonials}>
-        <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
-          Made for people like you
-        </h2>
-      </TestimonialSection>
+      {/* Section 5: Social Proof / Testimonials Carousel */}
+      <Section>
+        <FadeIn className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
+            Made for people like you
+          </h2>
+        </FadeIn>
+        <TestimonialCarousel testimonials={testimonials} interval={6000} />
+      </Section>
 
       {/* Section 6: How It Works */}
-      <Section>
-        <div className="text-center mb-12">
+      <Section background="muted">
+        <FadeIn className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
             Smart help. Zero judgment.
           </h2>
-        </div>
+        </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {howItWorksSteps.map((step) => (
-            <div key={step.number} className="text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mx-auto mb-6">
+          {howItWorksSteps.map((step, index) => (
+            <motion.div
+              key={step.number}
+              className="text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+            >
+              <motion.div
+                className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mx-auto mb-6"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.2 }}
+              >
                 <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                   {step.number}
                 </span>
-              </div>
+              </motion.div>
               <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
                 {step.title}
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400">
                 {step.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Section 7: Privacy Section */}
+      {/* Section 7: Privacy Section - Bento Style */}
       <Section background="dark">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Your secrets stay yours
-          </h2>
-          <p className="text-lg text-zinc-300 mb-10">
-            We built Poise for a community where discretion isn't optional -
-            it's everything.
-          </p>
+        <div className="max-w-4xl mx-auto">
+          <FadeIn className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Your secrets stay yours
+            </h2>
+            <p className="text-lg text-zinc-300">
+              We built Poise for a community where discretion isn't optional - it's everything.
+            </p>
+          </FadeIn>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
             {privacyPoints.map((point, index) => (
-              <Card
+              <motion.div
                 key={index}
-                padding="md"
-                className="bg-zinc-800 border-zinc-700 text-left"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                className="bg-zinc-800 rounded-xl p-5 border border-zinc-700"
               >
                 <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-emerald-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </span>
-                  <span className="text-zinc-200">{point}</span>
+                  <span className="text-2xl">{point.icon}</span>
+                  <span className="text-zinc-200">{point.text}</span>
                 </div>
-              </Card>
+              </motion.div>
             ))}
           </div>
-          <p className="text-purple-300 font-medium">
-            The lifestyle community trusts Poise because we engineered privacy
-            in from day one.
-          </p>
+
+          <FadeIn delay={0.4}>
+            <p className="text-purple-300 font-medium text-center">
+              The lifestyle community trusts Poise because we engineered privacy in from day one.
+            </p>
+          </FadeIn>
         </div>
       </Section>
 
       {/* Section 8: Pricing Section */}
       <Section>
-        <div className="text-center mb-12">
+        <FadeIn className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
             Start free. Upgrade when you're ready.
           </h2>
-        </div>
+        </FadeIn>
         <PricingTable tiers={pricingTiers} className="py-0" />
+        <FadeIn delay={0.3}>
+          <p className="text-center text-sm text-zinc-500 dark:text-zinc-400 mt-8">
+            Download free and upgrade anytime in-app. All purchases handled securely through the App Store.
+          </p>
+        </FadeIn>
       </Section>
 
       {/* Section 9: Final CTA */}
       <CTASection
         headline="Ready to message with confidence?"
         description="You've spent enough time staring at blank message fields, second-guessing yourself, or getting advice from AI that doesn't understand your world. Poise was built for Feeld. For ENM. For the lifestyle community. For you."
-        primaryCta={{ text: "Download Poise - Free", href: "/download" }}
+        primaryCta={{ text: "Download for iOS - Free", href: "/download", icon: <AppleIcon /> }}
         background="gradient"
       />
     </div>

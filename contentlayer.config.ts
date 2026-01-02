@@ -39,7 +39,7 @@ export const Article = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: 'string',
-      resolve: (article) => `/articles/${article.slug}`,
+      resolve: (article) => `/${article.category}/${article.slug}`,
     },
   },
 }))

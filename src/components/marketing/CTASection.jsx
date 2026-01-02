@@ -92,10 +92,13 @@ function CTASection({
                 href={primaryCta.href}
                 className={
                   background === "gradient"
-                    ? "bg-white text-purple-700 hover:bg-zinc-100 border-0 shadow-lg"
+                    ? "!bg-white !text-purple-900 font-semibold hover:!bg-zinc-100 !border-0 shadow-lg"
                     : ""
                 }
               >
+                {primaryCta.icon && (
+                  <span className="mr-2 -ml-1">{primaryCta.icon}</span>
+                )}
                 {primaryCta.text}
               </Button>
             )}
@@ -106,6 +109,9 @@ function CTASection({
                 href={secondaryCta.href}
                 className={secondaryButtonStyles}
               >
+                {secondaryCta.icon && (
+                  <span className="mr-2 -ml-1">{secondaryCta.icon}</span>
+                )}
                 {secondaryCta.text}
               </Button>
             )}

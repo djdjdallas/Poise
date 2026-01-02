@@ -4,16 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 
 const navigation = [
-  { name: "Features", href: "/features" },
+  { name: "Features", href: "/#features" },
   { name: "Pricing", href: "/pricing" },
   {
     name: "Guides",
-    href: "/guides",
+    href: "#",
     dropdown: [
-      { name: "Feeld Guide", href: "/guides/feeld" },
-      { name: "ENM Communication", href: "/guides/enm-communication" },
-      { name: "Dating Confidence", href: "/guides/dating-confidence" },
-      { name: "Authentic Connection", href: "/guides/authentic-connection" },
+      { name: "Feeld Guide", href: "/feeld-guide" },
+      { name: "ENM Communication", href: "/enm-communication" },
+      { name: "Dating Confidence", href: "/dating-confidence" },
+      { name: "Authentic Connection", href: "/authentic-connection" },
     ],
   },
   { name: "About", href: "/about" },
@@ -113,16 +113,18 @@ export default function Header({ className = "" }) {
 
                 {/* Dropdown menu */}
                 {guidesDropdownOpen && (
-                  <div className="absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-xl bg-white p-2 shadow-lg ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-700">
-                    {item.dropdown.map((subItem) => (
-                      <Link
-                        key={subItem.name}
-                        href={subItem.href}
-                        className="block rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                      >
-                        {subItem.name}
-                      </Link>
-                    ))}
+                  <div className="absolute left-1/2 top-full z-10 w-56 -translate-x-1/2 pt-2">
+                    <div className="rounded-xl bg-white p-2 shadow-lg ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-700">
+                      {item.dropdown.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
