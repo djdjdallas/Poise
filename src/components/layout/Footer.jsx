@@ -18,8 +18,12 @@ const footerLinks = {
   ],
   company: [
     { name: "About", href: "/about" },
+    { name: "Help & Support", href: "/help" },
+  ],
+  legal: [
+    { name: "Terms of Service", href: "/terms" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Privacy", href: "/privacy" },
-    { name: "FAQ", href: "/faq" },
   ],
 };
 
@@ -163,7 +167,7 @@ export default function Footer({ className = "" }) {
                 </ul>
               </div>
             </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
+            <div className="md:grid md:grid-cols-3 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-white">
                   Tools
@@ -187,6 +191,23 @@ export default function Footer({ className = "" }) {
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {footerLinks.company.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="text-sm leading-6 text-zinc-400 transition-colors hover:text-white"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6 text-white">
+                  Legal
+                </h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {footerLinks.legal.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}

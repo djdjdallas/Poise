@@ -121,7 +121,7 @@ const faqCategories = [
       {
         question: "How do I contact support?",
         answer:
-          "You can reach our support team at support@poise.app. We typically respond within 24 hours on business days. For common questions, check our FAQ or visit our help center in the app.",
+          "You can reach our support team at support@trypoise.app. We typically respond within 24 hours on business days. For common questions, check our FAQ or visit our help center in the app.",
       },
     ],
   },
@@ -249,7 +249,7 @@ export default function FAQPage() {
             to you as soon as possible.
           </p>
           <a
-            href="mailto:support@poise.app"
+            href="mailto:support@trypoise.app"
             className="inline-flex items-center gap-2 text-lg font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
           >
             <svg
@@ -265,7 +265,7 @@ export default function FAQPage() {
                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            support@poise.app
+            support@trypoise.app
           </a>
         </div>
       </Section>

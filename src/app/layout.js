@@ -22,7 +22,7 @@ export const metadata = {
   openGraph: {
     title: "Poise - AI Dating Coach for Feeld & ENM",
     description: "The first AI conversation coach built specifically for Feeld, ethical non-monogamy, and the lifestyle community.",
-    url: "https://poise.app",
+    url: "https://trypoise.app",
     siteName: "Poise",
     type: "website",
   },
