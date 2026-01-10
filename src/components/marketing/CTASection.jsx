@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui";
+import posthog from "posthog-js";
 
 /**
  * CTASection component displays a call-to-action block with headline, description, and buttons
@@ -95,6 +98,14 @@ function CTASection({
                     ? "!bg-white !text-purple-900 font-semibold hover:!bg-zinc-100 !border-0 shadow-lg"
                     : ""
                 }
+                onClick={() => {
+                  posthog.capture("cta_download_clicked", {
+                    cta_text: primaryCta.text,
+                    cta_location: "cta_section_primary",
+                    destination_url: primaryCta.href,
+                    section_headline: headline,
+                  });
+                }}
               >
                 {primaryCta.icon && (
                   <span className="mr-2 -ml-1">{primaryCta.icon}</span>
@@ -108,6 +119,14 @@ function CTASection({
                 size="lg"
                 href={secondaryCta.href}
                 className={secondaryButtonStyles}
+                onClick={() => {
+                  posthog.capture("cta_download_clicked", {
+                    cta_text: secondaryCta.text,
+                    cta_location: "cta_section_secondary",
+                    destination_url: secondaryCta.href,
+                    section_headline: headline,
+                  });
+                }}
               >
                 {secondaryCta.icon && (
                   <span className="mr-2 -ml-1">{secondaryCta.icon}</span>

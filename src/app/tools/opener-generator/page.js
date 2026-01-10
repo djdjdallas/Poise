@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Badge, Section, Card } from "@/components/ui";
 import { Container } from "@/components/layout";
 import { CTASection } from "@/components/marketing";
+import posthog from "posthog-js";
 
 export default function OpenerGeneratorPage() {
   const [formData, setFormData] = useState({
@@ -28,6 +29,12 @@ export default function OpenerGeneratorPage() {
     setError(null);
     setResults(null);
 
+    // Track opener generation submission
+    posthog.capture("opener_generation_submitted", {
+      style: formData.style || "ai_decided",
+      has_context: !!formData.context,
+    });
+
     try {
       const response = await fetch("/api/generate-opener", {
         method: "POST",
@@ -42,8 +49,16 @@ export default function OpenerGeneratorPage() {
       }
 
       setResults(data.openers);
+
+      // Track successful opener generation
+      posthog.capture("opener_generation_completed", {
+        style: formData.style || "ai_decided",
+        results_count: data.openers?.length || 0,
+      });
     } catch (err) {
       setError(err.message);
+      // Track error
+      posthog.captureException(err);
     } finally {
       setLoading(false);
     }
@@ -54,6 +69,12 @@ export default function OpenerGeneratorPage() {
       await navigator.clipboard.writeText(text);
       setCopied(index);
       setTimeout(() => setCopied(null), 2000);
+
+      // Track opener copied
+      posthog.capture("opener_copied", {
+        opener_index: index,
+        opener_length: text.length,
+      });
     } catch (err) {
       console.error("Failed to copy:", err);
     }

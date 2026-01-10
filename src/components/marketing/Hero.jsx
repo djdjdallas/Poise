@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
 import { Container } from "@/components/layout";
+import posthog from "posthog-js";
 
 /**
  * Animated Hero section component for landing pages
@@ -84,7 +85,17 @@ function Hero({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
-              <Button href={primaryCta.href} size="lg">
+              <Button
+                href={primaryCta.href}
+                size="lg"
+                onClick={() => {
+                  posthog.capture("cta_download_clicked", {
+                    cta_text: primaryCta.text,
+                    cta_location: "hero_primary",
+                    destination_url: primaryCta.href,
+                  });
+                }}
+              >
                 {primaryCta.icon && (
                   <span className="mr-2 -ml-1">{primaryCta.icon}</span>
                 )}
@@ -96,7 +107,18 @@ function Hero({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button href={secondaryCta.href} variant="secondary" size="lg">
+                <Button
+                  href={secondaryCta.href}
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => {
+                    posthog.capture("cta_download_clicked", {
+                      cta_text: secondaryCta.text,
+                      cta_location: "hero_secondary",
+                      destination_url: secondaryCta.href,
+                    });
+                  }}
+                >
                   {secondaryCta.icon && (
                     <span className="mr-2 -ml-1">{secondaryCta.icon}</span>
                   )}

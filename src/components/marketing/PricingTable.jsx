@@ -1,4 +1,7 @@
+"use client";
+
 import { Button, Badge, Card, Section } from "@/components/ui";
+import posthog from "posthog-js";
 
 /**
  * CheckIcon component for feature list items
@@ -90,6 +93,16 @@ function PricingCard({ tier }) {
           variant={popular ? "primary" : "secondary"}
           href={cta.href}
           className="w-full"
+          onClick={() => {
+            posthog.capture("pricing_tier_clicked", {
+              tier_name: name,
+              tier_price: price,
+              tier_period: period,
+              is_popular: popular,
+              cta_text: cta.text,
+              destination_url: cta.href,
+            });
+          }}
         >
           {cta.text}
         </Button>

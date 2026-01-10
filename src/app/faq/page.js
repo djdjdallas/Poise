@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Section, Card } from "@/components/ui";
 import { Container } from "@/components/layout";
+import posthog from "posthog-js";
 
 const faqCategories = [
   {
@@ -127,11 +128,22 @@ const faqCategories = [
   },
 ];
 
-function FAQItem({ question, answer, isOpen, onToggle }) {
+function FAQItem({ question, answer, isOpen, onToggle, category }) {
+  const handleToggle = () => {
+    // Only track when expanding (not collapsing)
+    if (!isOpen) {
+      posthog.capture("faq_item_expanded", {
+        question: question,
+        category: category,
+      });
+    }
+    onToggle();
+  };
+
   return (
     <div className="border-b border-zinc-200 dark:border-zinc-800 last:border-b-0">
       <button
-        onClick={onToggle}
+        onClick={handleToggle}
         className="w-full py-5 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 rounded-lg"
       >
         <span className="text-lg font-medium text-zinc-900 dark:text-white pr-4">
@@ -183,6 +195,7 @@ function FAQCategory({ title, faqs, openItems, onToggle }) {
               answer={faq.answer}
               isOpen={openItems[`${title}-${index}`]}
               onToggle={() => onToggle(`${title}-${index}`)}
+              category={title}
             />
           ))}
         </div>
@@ -250,6 +263,11 @@ export default function FAQPage() {
           </p>
           <a
             href="mailto:support@trypoise.app"
+            onClick={() => {
+              posthog.capture("support_email_clicked", {
+                source: "faq_page",
+              });
+            }}
             className="inline-flex items-center gap-2 text-lg font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
           >
             <svg

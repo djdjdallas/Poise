@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Badge, Section, Card } from "@/components/ui";
 import { Container } from "@/components/layout";
 import { CTASection } from "@/components/marketing";
+import posthog from "posthog-js";
 
 export default function BioGeneratorPage() {
   const [formData, setFormData] = useState({
@@ -29,6 +30,13 @@ export default function BioGeneratorPage() {
     setError(null);
     setResults(null);
 
+    // Track bio generation submission
+    posthog.capture("bio_generation_submitted", {
+      app: formData.app,
+      relationship_status: formData.relationshipStatus,
+      vibe: formData.vibe || "ai_decided",
+    });
+
     try {
       const response = await fetch("/api/generate-bio", {
         method: "POST",
@@ -43,8 +51,18 @@ export default function BioGeneratorPage() {
       }
 
       setResults(data.bios);
+
+      // Track successful bio generation
+      posthog.capture("bio_generation_completed", {
+        app: formData.app,
+        relationship_status: formData.relationshipStatus,
+        vibe: formData.vibe || "ai_decided",
+        results_count: data.bios?.length || 0,
+      });
     } catch (err) {
       setError(err.message);
+      // Track error
+      posthog.captureException(err);
     } finally {
       setLoading(false);
     }
@@ -55,6 +73,13 @@ export default function BioGeneratorPage() {
       await navigator.clipboard.writeText(text);
       setCopied(index);
       setTimeout(() => setCopied(null), 2000);
+
+      // Track bio copied
+      posthog.capture("bio_copied", {
+        bio_index: index,
+        app: formData.app,
+        bio_length: text.length,
+      });
     } catch (err) {
       console.error("Failed to copy:", err);
     }

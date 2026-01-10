@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NewsletterForm from "./NewsletterForm";
 
 const footerLinks = {
   product: [
@@ -92,26 +93,7 @@ export default function Footer({ className = "" }) {
               <p className="mt-2 text-sm leading-6 text-zinc-400">
                 Get dating tips and updates delivered to your inbox.
               </p>
-              <form className="mt-4 flex max-w-md gap-x-3">
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="min-w-0 flex-auto rounded-full border-0 bg-zinc-800 px-4 py-2.5 text-sm text-white shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-500 focus:ring-2 focus:ring-inset focus:ring-white"
-                  placeholder="Enter your email"
-                />
-                <button
-                  type="submit"
-                  className="flex-none rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm transition-colors hover:bg-zinc-200"
-                >
-                  Subscribe
-                </button>
-              </form>
+              <NewsletterForm />
             </div>
 
             {/* Social links */}
