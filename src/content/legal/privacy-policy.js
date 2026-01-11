@@ -16,7 +16,6 @@ This policy applies to information we collect through the App and in email, text
 **Information You Provide:**
 - **Account Information:** Email address used for registration and authentication
 - **Profile Information:** Any preferences or settings you configure in the App
-- **Conversation Context:** Messages and prompts you input to receive AI-generated suggestions
 - **Support Communications:** Information you provide when contacting our support team
 
 **Information Collected Automatically:**
