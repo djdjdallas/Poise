@@ -13,6 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://trypoise.app'),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     default: "Poise - AI Dating Coach for Feeld & ENM",
     template: "%s | Poise"

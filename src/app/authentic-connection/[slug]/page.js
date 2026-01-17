@@ -17,6 +17,9 @@ export async function generateMetadata({ params }) {
   return {
     title: article.title,
     description: article.description,
+    alternates: {
+      canonical: `/authentic-connection/${slug}`,
+    },
   };
 }
 
