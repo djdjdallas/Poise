@@ -8,7 +8,7 @@ export default function DownloadButtons() {
     posthog.capture("app_store_link_clicked", {
       platform: "ios",
       store: "app_store",
-      destination_url: "https://apps.apple.com/app/poise",
+      destination_url: "https://apps.apple.com/us/app/poise-app/id6757319090",
     });
   };
 
@@ -23,7 +23,7 @@ export default function DownloadButtons() {
     <div className="flex flex-col sm:flex-row gap-4 mb-10">
       {/* App Store Button */}
       <a
-        href="https://apps.apple.com/app/poise"
+        href="https://apps.apple.com/us/app/poise-app/id6757319090"
         onClick={handleAppStoreClick}
         className="inline-flex items-center gap-3 px-6 py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors"
       >
