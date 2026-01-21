@@ -2,6 +2,7 @@ import { allArticles } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { ArticleLayout, MDXContent } from "@/components/content";
 import FAQSchema, { articleFAQs } from "@/components/seo/FAQSchema";
+import AppSchema from "@/components/seo/AppSchema";
 
 export async function generateStaticParams() {
   return allArticles
@@ -37,6 +38,7 @@ export default async function FeeldGuideArticle({ params }) {
   return (
     <>
       {faqs && <FAQSchema faqs={faqs} />}
+      <AppSchema />
       <ArticleLayout
         title={article.title}
         description={article.description}
@@ -44,6 +46,7 @@ export default async function FeeldGuideArticle({ params }) {
         author={article.author}
         category="Feeld Guide"
         backLink={{ text: "Back to Feeld Guide", href: "/feeld-guide" }}
+        slug={slug}
       >
         <MDXContent content={article.body.raw} />
       </ArticleLayout>

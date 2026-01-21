@@ -1,6 +1,7 @@
 import { allArticles } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { ArticleLayout, MDXContent } from "@/components/content";
+import AppSchema from "@/components/seo/AppSchema";
 
 export async function generateStaticParams() {
   return allArticles
@@ -32,15 +33,19 @@ export default async function AuthenticConnectionArticle({ params }) {
   if (!article) notFound();
 
   return (
-    <ArticleLayout
-      title={article.title}
-      description={article.description}
-      publishedAt={article.publishedAt}
-      author={article.author}
-      category="Authentic Connection"
-      backLink={{ text: "Back to Authentic Connection", href: "/authentic-connection" }}
-    >
-      <MDXContent content={article.body.raw} />
-    </ArticleLayout>
+    <>
+      <AppSchema />
+      <ArticleLayout
+        title={article.title}
+        description={article.description}
+        publishedAt={article.publishedAt}
+        author={article.author}
+        category="Authentic Connection"
+        backLink={{ text: "Back to Authentic Connection", href: "/authentic-connection" }}
+        slug={slug}
+      >
+        <MDXContent content={article.body.raw} />
+      </ArticleLayout>
+    </>
   );
 }

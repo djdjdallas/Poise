@@ -1,4 +1,5 @@
 export { Hero } from "./Hero";
+export { AppStoreCTA } from "./AppStoreCTA";
 export { FeatureCard } from "./FeatureCard";
 export { FeatureGrid } from "./FeatureGrid";
 export { TestimonialCard } from "./TestimonialCard";

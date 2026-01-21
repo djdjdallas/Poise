@@ -1,6 +1,7 @@
 import { allArticles } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { ArticleLayout, MDXContent } from "@/components/content";
+import AppSchema from "@/components/seo/AppSchema";
 
 export async function generateStaticParams() {
   return allArticles
@@ -32,15 +33,19 @@ export default async function ENMCommunicationArticle({ params }) {
   if (!article) notFound();
 
   return (
-    <ArticleLayout
-      title={article.title}
-      description={article.description}
-      publishedAt={article.publishedAt}
-      author={article.author}
-      category="ENM Communication"
-      backLink={{ text: "Back to ENM Communication", href: "/enm-communication" }}
-    >
-      <MDXContent content={article.body.raw} />
-    </ArticleLayout>
+    <>
+      <AppSchema />
+      <ArticleLayout
+        title={article.title}
+        description={article.description}
+        publishedAt={article.publishedAt}
+        author={article.author}
+        category="ENM Communication"
+        backLink={{ text: "Back to ENM Communication", href: "/enm-communication" }}
+        slug={slug}
+      >
+        <MDXContent content={article.body.raw} />
+      </ArticleLayout>
+    </>
   );
 }

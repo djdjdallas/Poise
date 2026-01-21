@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui";
 import { Container } from "@/components/layout";
+import { AppStoreCTA } from "@/components/marketing";
 
 /**
  * ArticleLayout component - MDX article wrapper
@@ -13,6 +14,7 @@ import { Container } from "@/components/layout";
  * @param {React.ReactNode} props.children - MDX content
  * @param {string} props.category - Article category
  * @param {{ text: string, href: string }} props.backLink - Navigation back to hub
+ * @param {string} [props.slug] - Article slug for CTA tracking
  */
 function ArticleLayout({
   title,
@@ -22,6 +24,7 @@ function ArticleLayout({
   children,
   category,
   backLink,
+  slug,
 }) {
   // Format the date for display
   const formattedDate = new Date(publishedAt).toLocaleDateString("en-US", {
@@ -91,6 +94,11 @@ function ArticleLayout({
           </div>
         </header>
 
+        {/* Inline CTA after header */}
+        <div className="max-w-3xl">
+          <AppStoreCTA variant="inline" articleSlug={slug} />
+        </div>
+
         {/* Article content with prose styling */}
         <div className="max-w-3xl">
           <div
@@ -111,6 +119,9 @@ function ArticleLayout({
           >
             {children}
           </div>
+
+          {/* Footer CTA */}
+          <AppStoreCTA variant="footer" articleSlug={slug} />
         </div>
       </Container>
     </article>
