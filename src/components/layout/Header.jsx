@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 const navigation = [
   { name: "Features", href: "/#features" },
@@ -145,6 +146,13 @@ export default function Header({ className = "" }) {
           <Link
             href="/download"
             className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+            onClick={() =>
+              posthog.capture("cta_download_clicked", {
+                cta_text: "Download",
+                cta_location: "header_desktop",
+                destination_url: "/download",
+              })
+            }
           >
             Download
           </Link>
@@ -211,7 +219,14 @@ export default function Header({ className = "" }) {
               <Link
                 href="/download"
                 className="block w-full rounded-full bg-zinc-900 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  posthog.capture("cta_download_clicked", {
+                    cta_text: "Download",
+                    cta_location: "header_mobile",
+                    destination_url: "/download",
+                  });
+                  setMobileMenuOpen(false);
+                }}
               >
                 Download
               </Link>
