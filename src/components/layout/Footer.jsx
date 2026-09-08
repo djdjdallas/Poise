@@ -25,6 +25,7 @@ const footerLinks = {
     { name: "Terms of Service", href: "/terms" },
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Privacy", href: "/privacy" },
+    { name: "Affiliate Disclosure", href: "/affiliate-disclosure" },
   ],
 };
 
@@ -207,6 +208,19 @@ export default function Footer({ className = "" }) {
 
         {/* Copyright */}
         <div className="mt-16 border-t border-zinc-800 pt-8 sm:mt-20 lg:mt-24">
+          {/* Affiliate disclosure (FTC) */}
+          <p className="mb-4 max-w-prose text-xs leading-5 text-zinc-500">
+            Poise participates in affiliate programs including Amazon Associates
+            and other partner programs. When you click some links and make a
+            purchase, we may earn a commission at no extra cost to you. See our{" "}
+            <Link
+              href="/affiliate-disclosure"
+              className="underline transition-colors hover:text-zinc-300"
+            >
+              affiliate disclosure
+            </Link>{" "}
+            for details.
+          </p>
           <p className="text-sm leading-5 text-zinc-500">
             &copy; {new Date().getFullYear()} Poise. All rights reserved.
           </p>

@@ -1,8 +1,7 @@
 import Markdown from "react-markdown";
+import AffiliateCard from "./AffiliateCard";
 
-export function MDXContent({ content }) {
-  return (
-    <div className="prose prose-lg prose-zinc dark:prose-invert max-w-none
+const PROSE_CLASSES = `prose prose-lg prose-zinc dark:prose-invert max-w-none
       prose-headings:font-semibold prose-headings:tracking-tight
       prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
       prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -17,8 +16,56 @@ export function MDXContent({ content }) {
       prose-code:bg-zinc-100 prose-code:dark:bg-zinc-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono
       prose-pre:bg-zinc-900 prose-pre:dark:bg-zinc-950 prose-pre:rounded-xl prose-pre:p-4
       prose-hr:border-zinc-200 prose-hr:dark:border-zinc-800 prose-hr:my-8
-    ">
-      <Markdown>{content}</Markdown>
+    `;
+
+// Matches self-closing <AffiliateCard ... /> blocks in the raw article source.
+const AFFILIATE_CARD_RE = /<AffiliateCard\b([\s\S]*?)\/>/g;
+// Matches key="value" props (values never contain double quotes).
+const PROP_RE = /(\w+)="([^"]*)"/g;
+
+function parseProps(attrString) {
+  const props = {};
+  for (const match of attrString.matchAll(PROP_RE)) {
+    props[match[1]] = match[2];
+  }
+  return props;
+}
+
+/**
+ * Split raw markdown into alternating markdown chunks and AffiliateCard props.
+ *
+ * Articles are rendered with react-markdown (not compiled MDX), which drops
+ * unknown JSX. So we lift `<AffiliateCard ... />` blocks out of the source
+ * here and render them as real components between the markdown chunks.
+ */
+function splitContent(content) {
+  const segments = [];
+  let lastIndex = 0;
+  for (const match of content.matchAll(AFFILIATE_CARD_RE)) {
+    if (match.index > lastIndex) {
+      segments.push({ type: "markdown", value: content.slice(lastIndex, match.index) });
+    }
+    segments.push({ type: "card", props: parseProps(match[1]) });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < content.length) {
+    segments.push({ type: "markdown", value: content.slice(lastIndex) });
+  }
+  return segments;
+}
+
+export function MDXContent({ content }) {
+  const segments = splitContent(content || "");
+
+  return (
+    <div className={PROSE_CLASSES}>
+      {segments.map((segment, index) =>
+        segment.type === "card" ? (
+          <AffiliateCard key={index} {...segment.props} />
+        ) : (
+          <Markdown key={index}>{segment.value}</Markdown>
+        )
+      )}
     </div>
   );
 }
